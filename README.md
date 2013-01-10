@@ -9,13 +9,13 @@ to run it download pihat to your pi and run
 chmod +x ./pihat
 
 To pair
-./pihat --repeats=50 --id=0 --channel=7 --state=1
+./pihat --brand=5 --repeats=50 --id=0 --channel=7 --state=1
 
 To turn on
-./pihat --id=0 --channel=7 --state=1
+./pihat --brand=5 --id=0 --channel=7 --state=1
 
 To turn off
-./pihat --id=0 --channel=7 --state=0
+./pihat --brand=5 --id=0 --channel=7 --state=0
 
 
 id is the remote id between 0 to 65535
@@ -34,3 +34,5 @@ channel takes value from 0 to 7 with the following mappings:
 5 -> button 3
 
 3 -> button 2
+
+If you want to use your FM radio to record the transmission you can add the specify --frequency=1 to the above commands and turn your radio to 100 MHz.
