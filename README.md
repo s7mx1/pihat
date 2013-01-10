@@ -20,6 +20,10 @@ To turn off
 channel is the remote id between 0 to 65535
 
 state takes value from 0 to 15. According to the picaxeforum its used for "button code / command ( 4-bits )" but due to limited information I have not firgued out the parren yet. However according to the sample
+
+
 15 (1111) is on for button 1 
+
+
 7  (0111) is off for button 1
 
