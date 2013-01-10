@@ -33,7 +33,7 @@ void statusTxPacket(uint64_t *d, uint8_t rep){
 	uint8_t symbol_nr_max;
 	uint8_t p_nr;
 
-	symbol_nr_max = 26;
+	symbol_nr_max = 25;
 
 	for (p_nr = 0; p_nr < rep; p_nr++){
 

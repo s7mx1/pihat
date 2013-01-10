@@ -42,16 +42,18 @@ struct arguments{
 	uint8_t group;
 	uint8_t dim_level;
 	uint8_t repeats;
+        uint16_t frequency;
 };
 
 static struct argp_option options[] = {
-	{"brand",   'b', "BRAND", 0, "Brand of the receiver - defaults to Nexa (the only option as of now)"},
+	{"brand",   'b', "BRAND", 0, "Brand of the receiver - defaults to '0' (nexa), '5' (Status)"},
 	{"id",   'i', "ID_FIELD", 0, "The unique ID field (integer)"},
 	{"state",  's', "STATE", 0, "Power state: '0', '1'"},
 	{"channel",  'c', "CHANNEL", 0, "Channel: '0' - '15'"},
 	{"group",  'g', "GROUP_ON", 0, "Set group-flag: '0', '1'"},
 	{"dim",  'd', "DIM_LEVEL", 0, "Dim-level for Nexa: '0' - '15'"},
 	{"repeats",  'r', "REPEAT_NR", 0, "Number of times to resend packet: '0' - '255'"},
+	{"frequency",  'f', "FREQUENCY", 0, "frequency: '0' (144.64 MHz), '1' (100 MHz)"},
 	{0}
 };
 
@@ -63,8 +65,8 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state){
 	switch (key){
 		/* Brand */
 		case 'b':
-			if (!strcmp(arg, "n")) arguments->brand = BRAND_NEXA;
-			else argp_usage(state);
+			arguments->brand = strtol(arg, &end, 16);
+                        if ( (*end) || (arguments->channel > 5) ) argp_usage(state); 
 			break;
     	/* ID */
 		case 'i':
@@ -98,6 +100,11 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state){
 			arguments->repeats = strtol(arg, &end, 10);
 			if (*end) argp_usage(state);
 			break;
+                /* Frequency*/
+                case 'f':
+			if (!strcmp(arg, "1")) arguments->frequency = 0x5000;
+                        else arguments->frequency = 0x374F;
+                        break;
 		default:
 			return ARGP_ERR_UNKNOWN;
 	}
@@ -123,6 +130,7 @@ int main (int argc, char **argv){
 	arguments.group = 0;
 	arguments.dim_level = 0x10;	// Invalid entry - to determine if dim_level has been set at a later time
 	arguments.repeats = 3;
+        arguments.frequency = 0x374F;
 
 	/* Parse arguments */
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
@@ -133,7 +141,11 @@ int main (int argc, char **argv){
 	/* Setup RF-configuration */
 	setup_io();
 	setup_fm();
-	ACCESS(CM_GP0DIV) = (0x5a << 24) + 0x374F; // Tune to 144.64 MHz to get the third harmonic at 433.92 MHz
+        if (arguments.frequency == 0x374F)
+            printf("Tune to 144.64 MHz\n");
+        if (arguments.frequency == 0x5000)
+            printf("Tune to 100 MHz\n");
+	ACCESS(CM_GP0DIV) = (0x5a << 24) + arguments.frequency; // Tune to 144.64 MHz to get the third harmonic at 433.92 MHz
 
 	switch(arguments.brand){
 		case BRAND_NEXA:
@@ -152,6 +164,20 @@ int main (int argc, char **argv){
                         data |= ((uint64_t)arguments.id) << 5;
                         data |= ((uint64_t)arguments.channel) << 1;
                         data |= ((uint64_t)arguments.state) << 4;
+                        uint64_t mask;
+		        uint8_t symbol_nr;
+		        uint8_t symbol_nr_max;
+
+		        symbol_nr_max = 25;
+
+		        mask = 0x1000000;
+
+		        for (symbol_nr = 0; symbol_nr<symbol_nr_max; symbol_nr++){
+		                if ((data) & mask) printf("1");
+                		else printf("0");
+		                mask >>= 1;
+		            }
+		        printf("\n");
                         statusTxPacket(&data, arguments.repeats);
                         break;
 	}
