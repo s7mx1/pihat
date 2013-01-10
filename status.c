@@ -1,7 +1,7 @@
 /******************************************************************************/
-/*              PiHAT routines for Nexa remote power switches                 */
+/*              PiHAT routines for Status remote power switches                 */
 /*                                                                            */
-/*                          Jon Petter Skagmo, 2012                           */
+/*                          S7mx1, 2012                                       */
 /******************************************************************************/
 
 #include "status.h"

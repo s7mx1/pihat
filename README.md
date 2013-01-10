@@ -9,21 +9,28 @@ to run it download pihat to your pi and run
 chmod +x ./pihat
 
 To pair
-./pihat --repeats=50 --channel=0 --state=15
+./pihat --repeats=50 --id=0 --channel=7 --state=1
 
 To turn on
-./pihat --channel=0 --state=15
+./pihat --id=0 --channel=7 --state=1
 
 To turn off
-./pihat --channel=0 --state=7
-
-channel is the remote id between 0 to 65535
-
-state takes value from 0 to 15. According to the picaxeforum its used for "button code / command ( 4-bits )" but due to limited information I have not firgued out the parren yet. However according to the sample
+./pihat --id=0 --channel=7 --state=0
 
 
-15 (1111) is on for button 1 
+id is the remote id between 0 to 65535
+
+state takes value from 0 (off) to 1 (on). 
+
+channel takes value from 0 to 7 with the following mappings:
+
+0 -> ALL
 
 
-7  (0111) is off for button 1
+7 -> button 1
 
+6 -> button 4
+
+5 -> button 3
+
+3 -> button 2

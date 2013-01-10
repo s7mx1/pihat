@@ -150,7 +150,8 @@ int main (int argc, char **argv){
                         data = 0;
                         data |= ((uint64_t)1) << 21;
                         data |= ((uint64_t)arguments.id) << 5;
-                        data |= ((uint64_t)arguments.state) << 1;
+                        data |= ((uint64_t)arguments.channel) << 1;
+                        data |= ((uint64_t)arguments.state) << 4;
                         statusTxPacket(&data, arguments.repeats);
                         break;
 	}
