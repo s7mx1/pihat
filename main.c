@@ -162,8 +162,14 @@ int main (int argc, char **argv){
                         data = 0;
                         data |= ((uint64_t)1) << 21;
                         data |= ((uint64_t)arguments.id) << 5;
-                        data |= ((uint64_t)arguments.channel) << 1;
-                        data |= ((uint64_t)arguments.state) << 4;
+                        if ( arguments.channel >= 7 )
+                            data |= ((uint64_t)7) << 1;
+                        else
+                            data |= ((uint64_t)arguments.channel) << 1;
+                        if ( arguments.channel == 0)
+                            data |= ((uint64_t)1) << 4;
+                        else
+                            data |= ((uint64_t)arguments.state) << 4;
                         uint64_t mask;
 		        uint8_t symbol_nr;
 		        uint8_t symbol_nr_max;
