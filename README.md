@@ -20,7 +20,7 @@ To turn off
 
 id is the remote id between 0 to 65535
 
-state takes value from 0 (off) to 1 (on). 
+State takes value from 0 (off) to 1 (on). Note for ALL button (aka channel 0) either states will results off action since that's there is no ALL On button on Status Remotes. 
 
 channel takes value from 0 to 7 with the following mappings:
 
