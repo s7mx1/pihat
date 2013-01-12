@@ -18,7 +18,7 @@ To turn off
 ./pihat --brand=5 --id=0 --channel=7 --state=0
 
 
-id is the remote id between 0 to 65535
+id is the remote id between 0 - 262143. 65536 - 131071 for Morrison remote and 196608 - 262143 for Status remote.
 
 State takes value from 0 (off) to 1 (on). Note for ALL button (aka channel 0) either states will results off action since that's there is no ALL On button on Status Remotes. 
 
