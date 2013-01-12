@@ -160,7 +160,6 @@ int main (int argc, char **argv){
 			break;
                 case BRAND_STATUS:
                         data = 0;
-                        data |= ((uint64_t)1) << 21;
                         data |= ((uint64_t)arguments.id) << 5;
                         if ( arguments.channel >= 7 )
                             data |= ((uint64_t)7) << 1;

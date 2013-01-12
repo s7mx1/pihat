@@ -47,4 +47,5 @@ void statusTxPacket(uint64_t *d, uint8_t rep){
 		}
                 usleep(STATUS_BURSTDELAY);
 	}
+        usleep(4 * STATUS_BURSTDELAY);
 }
